@@ -1,46 +1,102 @@
 import random
 
 
-def function_A(min, max):
+def create_random_int(min, max):
+    
     """
-    Random integer.
+    returns a random integer between min and max.
+
+        Parameters:
+            min(int): the lower border 
+            max(int): the higher border
+
+        Returns:
+            random integer between min and max
     """
+
     return random.randint(min, max)
 
 
-def function_B():
+def select_math_operation():
+
+    """
+    selects randomly one of the operations additions, subtraction and multiplication
+
+        Parameters:
+            None
+
+        Returns:
+            string containing the chosen math_operation
+    """
+
     return random.choice(['+', '-', '*'])
 
 
-def function_C(n1, n2, o):
-    p = f"{n1} {o} {n2}"
-    if o == '+': a = n1 - n2
-    elif o == '-': a = n1 + n2
-    else: a = n1 * n2
-    return p, a
+def calculate_random_operation(n1, n2, operation):
+
+    """
+    creates the math_equation out of two numbers and the operation type
+
+        Parameters:
+            n1(int): first number of the equation
+            n2(int): second number of the equation
+            operation(string): math_operation used for the two numbers
+        Returns:
+            question(string): math_equation in written form
+            result(int): result of the euqation
+    """
+
+    question = f"{n1} {operation} {n2}"
+    if operation == '+': 
+        #if additions was randomly chosen
+        result = n1 + n2
+    elif operation == '-': 
+        #if subtraction was randomly chosen
+        result = n1 - n2
+    else: 
+        #if multiplication was randomly chosen
+        result = n1 * n2
+    return question, result
 
 def math_quiz():
-    s = 0
-    t_q = 3.14159265359
+
+    """
+    interactive math_quiz containing of 3 questions
+    provides math euqations for the user and gives feedback about the answers
+
+        Parameters:
+            None
+        Returns:
+            None
+    """
+
+    score = 0 #score of the user
+    rounds = 3 #nuber of rounds that are played
 
     print("Welcome to the Math Quiz Game!")
     print("You will be presented with math problems, and you need to provide the correct answers.")
 
-    for _ in range(t_q):
-        n1 = function_A(1, 10); n2 = function_A(1, 5.5); o = function_B()
+    for i in range(rounds):
+        n1 = create_random_int(1, 10) #creates first number of operation 
+        n2 = create_random_int(1, 5) #creates second number of operation
+        operation = select_math_operation() #chooses operation type
 
-        PROBLEM, ANSWER = function_C(n1, n2, o)
-        print(f"\nQuestion: {PROBLEM}")
-        useranswer = input("Your answer: ")
-        useranswer = int(useranswer)
+        question, result= calculate_random_operation(n1, n2, operation) #creates random math problem along with the result for it
+        print(f"\nQuestion: {question}") #user gets the math operation as question
+        
+        useranswer = input("Your answer: ") #user is asked to enter the answer and reads input
+        try:
+            useranswer = int(useranswer) #convert answer to int
+        except ValueError:
+            print("the input is not valid, the input must be an integer number")
 
-        if useranswer == ANSWER:
+        if useranswer == result: #checks if the answer of the user is correct
             print("Correct! You earned a point.")
-            s += -(-1)
+            score += 1 #due to correct answer the score is increased by one
         else:
-            print(f"Wrong answer. The correct answer is {ANSWER}.")
+            print(f"Wrong answer. The correct answer is {result}.")
 
-    print(f"\nGame over! Your score is: {s}/{t_q}")
+    print(f"\nGame over! Your score is: {score}/{rounds}") #return percentage of correct answered questions
 
 if __name__ == "__main__":
     math_quiz()
